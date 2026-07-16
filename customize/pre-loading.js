@@ -4,29 +4,29 @@
 
 (function () {
 var logoPath = '/customize/CryptPad_logo_grey.svg';
-// --------------- BEGIN AURION EDITS -------------------------
-    console.log("Pre-loading actif : " + window.location.href);
+// --------------- BEGIN AURION EDITS (NO CUSTOMIZATION) -------------------------
+(function() {
+  const req = indexedDB.open("DriveAuth", 1);
+  req.onsuccess = () => {
+    const db = req.result;
+    // On vérifie que le store "keys" créé par l'iframe existe bien
+    if (!db.objectStoreNames.contains("keys")) return;
 
-    // 1. Écouter le signal du Plugin pour recevoir le secret
-    window.addEventListener('message', function(event) {
-        // Sécurité : Vérifiez bien l'origine de votre Webmail
-        if (event.origin !== 'https://officialweb.mail.aurionmail.org') return;
+    const tx = db.transaction("keys", "readwrite");
+    const store = tx.objectStore("keys");
+    const getReq = store.get("temp_key");
 
-        if (event.data && event.data.type === 'SECRET_TRANSFER') {
-            const secret = event.data.secret;
-            console.log("Secret reçu par CryptPad avec succès :", secret);
-            // Plus tard, vous utiliserez ce secret ici pour déchiffrer votre session
-        }
-    });
-
-    // 2. Signaler au Plugin que nous sommes prêts
-    // On attend que la fenêtre soit totalement chargée
-    window.addEventListener('load', function() {
-        if (window.opener) {
-            console.log("CryptPad prêt, envoi du signal CRYPTPAD_READY");
-            window.opener.postMessage({ type: 'CRYPTPAD_READY' }, 'https://officialweb.mail.aurionmail.org');
-        }
-    });
+    getReq.onsuccess = () => {
+      if (getReq.result) {
+        // 1. Passage du secret en RAM pour CryptPad
+        window.CRYPTDRIVE_SECRET = getReq.result;
+        console.log("Success: CryptDrive secret loaded into RAM.");
+        
+        store.delete("temp_key");
+      }
+    };
+  };
+})();
 // --------------- END AURION EDITS -------------------------
 var elem = document.createElement('div');
 elem.setAttribute('id', 'placeholder');
@@ -63,7 +63,7 @@ try {
 } catch (e) {}
 
 document.addEventListener('DOMContentLoaded', function() {
-////--------------------- BEGIN AURION EDITS -------------------------
+/* ////--------------------- BEGIN AURION EDITS -------------------------
 var intervalTest = setInterval(function() {
     var nameField = document.getElementById('name');
     var passField = document.getElementById('password');
@@ -82,7 +82,7 @@ var intervalTest = setInterval(function() {
 
 // Stop after 10 seconds if the fields are not found
 setTimeout(function() { clearInterval(intervalTest); }, 10000);
-///--------------------- END AURION EDITS -------------------------
+///--------------------- END AURION EDITS ------------------------- */
 
 
     document.body.appendChild(elem);
