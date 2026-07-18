@@ -102,7 +102,7 @@ height: 100vh !important;
 
     // --- EN-TÊTE DE SECTION (Ex: "Dossiers") ---
     .cp-app-drive-tree-root > .cp-app-drive-element-row:first-child {
-        font-size: @colortheme_app-font-size !important;
+        font-size: @colortheme_app-font-size;
         font-weight: 400;
         color: @cp_sidebar-left-fg;
         &:hover { background-color: transparent !important; }
@@ -115,7 +115,7 @@ height: 100vh !important;
         width: 100% !important;
         min-height: @variables_bar-height !important; // Hauteur standardisée native
         padding: 0px 8px 0px 12px;
-        font-size: @colortheme_app-font-size !important;
+        font-size: 12px !important;
         font-weight: 500 !important;
         color: @cp_sidebar-left-fg !important;
         cursor: pointer !important;
@@ -194,14 +194,7 @@ height: 100vh !important;
     }
 
     // INDENTATION DYNAMIQUE DE L'ARBORESCENCE INFÉRIEURE
-    ul ul {
-        .cp-app-drive-element-row {
-            padding-left: 24px !important; 
-        }
-        ul .cp-app-drive-element-row {
-            padding-left: 36px !important;
-        }
-    }
+    
 
     // --- BLOC DE LIMITE DE STOCKAGE (EN BAS) ---
     .cp-limit-container {
@@ -291,7 +284,8 @@ height: 100vh !important;
         border: none !important;
         color: @cp_drive-header-fg !important;
         cursor: pointer !important;
-        padding: 4px !important;
+        padding: 12px !important;
+        margin-right: 4px !important;
         border-radius: @variables_radius !important;
         display: flex !important;
         align-items: center !important;
@@ -323,6 +317,9 @@ height: 100vh !important;
     &:focus {
         outline: none !important;
     }
+    .cp-app-drive-element-separator{
+        padding: 10px;
+    }
 
     // LA ZONE DE SÉLECTION AU CLIC-GLISSER
     .cp-app-drive-content-select-box {
@@ -339,18 +336,18 @@ height: 100vh !important;
         display: flex !important;
         align-items: center !important;
         gap: 8px !important;
-        margin: 8px 16px !important;
+       
         padding: 10px 14px !important;
-        border-radius: @variables_radius_M !important;
-        border: 1px solid @cp_alerts-warning-text !important; // Utilisation de la couleur native warning
-        background-color: @cp_alerts-warning-bg !important;
+       // border-radius: @variables_radius_M !important;// Utilisation de la couleur native warning
+        background-color: fade(@cryptpad_color_brand, 15%) !important; // Calcul transparent de la couleur de marque
+        border: 1px solid @cryptpad_color_brand !important; 
         font-size: 13px !important;
-        color: @cp_alerts-warning-text !important; 
+        color: @cryptpad_color_brand !important; 
 
         span[role="button"] {
             order: 2 !important;
             margin-left: auto !important;
-            color: @cp_alerts-warning-text !important;
+            color: @cryptpad_color_brand !important;
             display: flex !important;
             align-items: center !important;
             svg { width: 14px !important; height: 14px !important; }
@@ -387,9 +384,155 @@ height: 100vh !important;
     color: @cp_drive-selection-fg !important;
 }
 
+div.cp-app-drive-content-grid {
+            padding: 1em;
+            ul {
+                margin: -(@drive_icon-margin);
+            }
+            .drive_fileIcon;
+            li {
+                border-radius: @variables_radius;
+                &.cp-app-drive-element {
+                    position: relative;
+                }
+                &.cp-app-drive-element-separator {
+                    display: block;
+                    height: auto;
+                    width: auto;
+                    border: none !important;
+                }
+                input {
+                    width: 100%;
+                    margin: 0;
+                    padding: 0;
+                    border-radius: 0;
+                    border: 1px solid transparent;
+                    font-size: 14px;
+                    height: auto;
+                }
+                .cp-app-drive-element-state, .cp-app-drive-element-menu {
+                    position: absolute;
+                    top: 3px;
+                    display: flex;
+                    flex-direction: column;
+                    svg {
+                        margin: 0;
+                        font-size: 16px;
+                    }
+                }
+                .cp-app-drive-element-name-text {
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
+
+                .cp-app-drive-element-state {
+                    left: 3px;
+                }
+                .cp-app-drive-element-menu {
+                    right: 3px;
+                }
+                .cp-app-drive-element-thumbnail {
+                    max-width: 100px;
+                    max-height: 100px;
+                    background: @cp_drive-thumb-bg;
+                    & ~ svg {
+                        display: none;
+                        font-size: 17px;
+                        position: absolute;
+                        top: 3px;
+                        left: 3px;
+                        margin: 0;
+                    }
+                }
+            }
+            .cp-app-drive-new-ghost {
+                flex-flow: column;
+                svg {
+                    font-size: 90px;
+                    margin: 0;
+                }
+            }
+            .cp-app-drive-element-list {
+                display: none;
+            }
+        }
+
+@drive_icon-margin: 10px;
+    .drive_fileIcon {
+        li {
+            display: inline-block;
+            margin: @drive_icon-margin;
+            width: 140px;
+            height: 140px;
+            text-align: center;
+            vertical-align: top;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            border: 1px solid transparent;
+            svg.cp-app-drive-element-icon {
+                min-width: 1.25em;
+                min-height: 1.25em;
+                font-size: 1em;
+                margin-right: 0.2rem;
+            }
+            &:not(.cp-app-drive-element-selected):not(.cp-app-drive-element-selected-tmp) {
+                border: 1px solid @cp_drive-icon-border;
+            }
+            .cp-app-drive-element-name {
+                width: 100%;
+                height: 24px;
+                margin: 0;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                //align-items: center;
+                //justify-content: center;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                word-wrap: break-word;
+            }
+            .cp-app-drive-element-truncated {
+                display: block;
+                position: absolute;
+                bottom: 0px;
+                left: 0; right: 0;
+                text-align: center;
+            }
+            img.cp-app-drive-content-icon {
+                height: 48px;
+                max-height: none;
+                max-width: none;
+                margin: 8px 0;
+            }
+            svg {
+                margin: 18px 0;
+                text-align: center;
+                &.listonly {
+                    display: none;
+                }
+            }
+            svg {
+                font-size: 55px; //temporary XXX
+            }
+
+            &.cp-app-hidden {
+                display: none !important;
+            }
+            &.cp-app-disabled {
+                cursor: not-allowed !important;
+                svg { cursor: not-allowed !important; }
+                opacity: 0.5;
+            }
+        }
+    }
+
 // --- 4. LA LISTE DES FICHIERS ---
 #cp-app-drive-content-folder.cp-app-drive-content-list {
-    padding: 0 16px !important;
 
     ul {
         list-style: none !important;
