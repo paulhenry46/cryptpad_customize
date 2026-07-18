@@ -8,528 +8,522 @@
   //  display: flex !important;
 //    flex-direction: row !important;
 display: flex !important;
-    flex-direction: column !important;
-    height: 100vh !important;
+flex-direction: column !important;
+height: 100vh !important;
 
-  .cp-app-drive-container {
-        flex: 1;
-        width: 100%;
-        display: flex;
-        flex-flow: row;
-        min-height: 0;
-        min-width: 0;
-        @media screen and (max-width: @browser_media-medium-screen) {
-            display: block;
-            overflow-y: auto;
-            #cp-app-drive-toolbar {
-                .path .element {
-                    display: none;
-                }
-            }
-            #cp-app-drive-tree {
-                resize: none;
-                width: 100% !important;
-                min-width: unset;
-                max-width: unset;
-                max-height: unset;
-                .cp-app-drive-tree-category {
-                    margin-top: 0.5em;
-                }
-                .cp-splitter {
-                    display: none;
-                }
-            }
+.cp-app-drive-container {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    flex-flow: row;
+    min-height: 0;
+    min-width: 0;
 
-            #cp-app-drive-content-container {
-                width: 100%;
-                display: flex !important;
-                flex-direction: column !important;
-                .cp-splitter {
-                    display: none;
-                }
+    @media screen and (max-width: @browser_media-medium-screen) {
+        display: block;
+        overflow-y: auto;
+        #cp-app-drive-toolbar {
+            .path .element {
+                display: none;
             }
         }
-    }
-    #cp-app-drive-content-container {
-                width: 100%;
-                display: flex !important;
-                flex-direction: column !important;
-                .cp-splitter {
-                    display: none;
-                }
-            }
-
-    // --- LE PANNEAU LATÉRAL ENTIER ---
-    // --- LE PANNEAU LATÉRAL ENTIER (STYLE TAILWIND/SHADCN) ---
-    #cp-app-drive-tree {
-        
-        background-color: #ffffff !important; // Fond blanc épuré comme le modèle
-        border-right: 1px solid #e2e8f0 !important; 
-        padding: 12px 0px !important; // Padding vertical ajusté, horizontal géré par ligne
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: space-between !important;
-        width: 15% !important;
-        flex-shrink: 0 !important;
-
-        // Suppression globale et absolue des puces HTML (ronds, carrés)
-        ul, li {
-            list-style: none !important;
-            list-style-type: none !important;
-        }
-
-        // Gestion du masquage des sous-dossiers repliés
-        li.cp-app-drive-element-collapsed {
-            > ul {
-                display: none !important;
-            }
-            // Le chevron pointe vers la droite quand c'est fermé
-            .cp-app-drive-icon-expcol svg {
-                transform: rotate(-90deg) !important;
-            }
-        }
-
-        // Nettoyage des listes natives de CryptPad
-        ul.cp-app-drive-tree-category,
-        div.cp-drive-tree ul.cp-app-drive-tree-docs {
-            list-style: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            display: flex !important;
-            flex-direction: column !important;
-        }
-
-        // --- EN-TÊTE DE SECTION (Ex: "Dossiers") ---
-        // Si CryptPad génère un titre de section racine, voici son look épuré
-        .cp-app-drive-tree-root > .cp-app-drive-element-row:first-child {
-            font-size: 14px !important;
-            font-weight: 400;
-            color: #0f172a;
-            &:hover { background-color: transparent !important; }
-        }
-
-        // --- STYLE DE CHAQUE LIGNE DE MENU (DOSSIERS & DOCS) ---
-        .cp-app-drive-element-row {
-            display: flex !important;
-            align-items: center !important;
+        #cp-app-drive-tree {
+            resize: none;
             width: 100% !important;
-            min-height: 28px !important; // Équivalent de la densité fine du modèle
-            padding: 0px 8px 0px 12px; // padding-right ajusté pour les icônes de fin
-            font-size: 14px !important;
-            font-weight: 500 !important;
-            color: #0f172a; // text-foreground
-            cursor: pointer !important;
-            transition: background-color 0.15s ease, color 0.15s ease !important;
-            border-left: 2px solid transparent !important; // border-s-2 border-transparent par défaut
-
-            // Gestion de l'icône d'arborescence (Développer/Réduire le chevron)
-            .cp-app-drive-icon-expcol {
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                width: 20px !important;
-                height: 20px !important;
-                border-radius: 4px !important;
-                margin-right: 4px !important;
-                transition: background-color 0.1s ease !important;
-
-                &:hover {
-                    background-color: #f1f5f9 !important; // hover:bg-muted
-                }
-
-                svg {
-                    width: 12px !important; // w-3
-                    height: 12px !important; // h-3
-                    color: #64748b !important; // text-muted-foreground
-                    transition: transform 0.15s ease !important;
-                    margin-right: 0rem;
-                }
+            min-width: unset;
+            max-width: unset;
+            max-height: unset;
+            .cp-app-drive-tree-category {
+                margin-top: 0.5em;
             }
-
-            // Icônes de contenu principales (Dossiers ou Fichiers spécifiques)
-            svg.cp-app-drive-content-icon,
-            svg.cp-icon {
-                width: 16px !important; // w-4
-                height: 16px !important; // h-4
-                margin-right: 8px !important; // gap-2
-                flex-shrink: 0 !important;
-                color: #64748b !important; // Couleur adoucie par défaut
-
-                // Nuances de couleur par type de fichier du modèle
-                &.lucide-inbox { color: rgba(37, 99, 235, 0.8) !important; }
-                &.lucide-file-text { color: rgba(124, 58, 237, 0.8) !important; }
-                &.lucide-send { color: rgba(5, 150, 105, 0.8) !important; }
-                &.lucide-ban { color: rgba(220, 38, 38, 0.8) !important; }
-            }
-
-            // Texte de l'élément (Tronqué proprement)
-            .cp-app-drive-element {
-                flex: 1 !important;
-                white-space: nowrap !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-            }
-
-            // ÉTAT HOVER (SURVOL NORMAL)
-            &:hover {
-                background-color: rgba(241, 245, 249, 0.5) !important; // hover:bg-muted/50
-                color: #0f172a !important;
-            }
-
-            // ÉLÉMENT ACTIF / SÉLECTIONNÉ (Style de la ligne "essai" du modèle)
-            &.cp-app-drive-element-active,
-            &.cp-leftside-active {
-                font-family: 'Inter', system-ui, -apple-system, sans-serif !important;//TODO
-                background-color: #dbeafe !important; // bg-accent
-                color: #1e40af !important; // text-accent-foreground
-                font-weight: 600 !important; // font-semibold
-                border-left: 2px solid #2563eb !important; // border-primary (Bleu)
-
-                svg.cp-app-drive-content-icon {
-                    color: #0f172a !important; // L'icône passe en premier plan
-                }
-            }
-        }
-
-        // INDENTATION DYNAMIQUE DE L'ARBORESCENCE INFÉRIEURE
-        // Imite le décalage progressif (`padding-left: 20px`, `32px`...) du modèle Tailwind pour les sous-dossiers
-        ul ul {
-            .cp-app-drive-element-row {
-                padding-left: 24px !important; 
-            }
-            ul .cp-app-drive-element-row {
-                padding-left: 36px !important;
-            }
-        }
-
-        // --- BLOC DE LIMITE DE STOCKAGE (EN BAS) ---
-        .cp-limit-container {
-            margin-top: auto !important;
-            padding: 16px 16px 4px 16px !important;
-            border-top: 1px solid #e2e8f0 !important;
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 10px !important;
-
-            .cp-limit-usage-text {
-                font-size: 12px !important;
-                color: #64748b !important;
-                b {
-                    color: #0f172a !important;
-                    font-weight: 600 !important;
-                }
-            }
-
-            .cp-limit-bar {
-                display: block !important;
-                width: 100% !important;
-                height: 6px !important;
-                background-color: #e2e8f0 !important;
-                border-radius: 9999px !important;
-                overflow: hidden !important;
-
-                .cp-limit-usage.cp-limit-usage-normal {
-                    display: block;
-                    height: 100% !important;
-                    background-color: #2563eb !important;
-                    border-radius: 9999px !important;
-                    transition: width 0.3s ease !important;
-                }
-            }
-
-            .cp-limit-buttons .cp-limit-upgrade.btn-primary {
-                display: block !important;
-                width: 100% !important;
-                text-align: center !important;
-                background-color: #ffffff !important;
-                border: 1px solid #e2e8f0 !important;
-                color: #475569 !important;
-                font-size: 12px !important;
-                font-weight: 600 !important;
-                padding: 6px 12px !important;
-                border-radius: 6px !important;
-                text-decoration: none !important;
-                transition: all 0.15s ease !important;
-
-                &:hover {
-                    background-color: #f1f5f9 !important;
-                    color: #0f172a !important;
-                }
-            }
-        }
-    }
-
-    .lucide-ellipsis-vertical{
-        display: none;
-    }
-
-    .cp-help-container {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-          
-            padding: 10px 14px !important;
-            
-            border: 1px solid #e2e8f0 !important;
-            background-color: #f8fafc !important;
-            width: 100%;
-            
-            .cp-help-text p {
-                margin: 0 !important;
-                font-size: 13px !important;
-                color: #475569 !important;
-
-                a {
-                    color: #2563eb !important;
-                    font-weight: 500 !important;
-                    text-decoration: none !important;
-                    &:hover { text-decoration: underline !important; }
-                }
-            }
-
-            .cp-help-close {
-                background: transparent !important;
-                border: none !important;
-                color: #94a3b8 !important;
-                cursor: pointer !important;
-                padding: 4px !important;
-                border-radius: 4px !important;
-                display: flex !important;
-                align-items: center !important;
-
-                &:hover {
-                    background-color: #e2e8f0 !important;
-                    color: #0f172a !important;
-                }
-                svg { width: 14px !important; height: 14px !important; }
-            }
-        }
-
-//       DRIVE CONTEIANTER
-    #cp-app-drive-content {
-        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-        background-color: #ffffff !important;
-        color: #0f172a !important;
-        display: flex !important;
-        flex-direction: column !important;
-        width: 100% !important;
-        position: relative !important; // INDISPENSABLE pour positionner la boîte de sélection (top/left)
-        overflow-y: auto !important;   // Permet le défilement et la capture du drag de sélection
-        box-sizing: border-box !important;
-        height: 100%;
-
-        &:focus {
-            outline: none !important;
-        }
-
-        // LA ZONE DE SÉLECTION AU CLIC-GLISSER (CORRIGÉE)
-        .cp-app-drive-content-select-box {
-            display: none; // Laissé sans !important car le JS bascule entre 'none' et 'block'
-            background-color: rgba(37, 99, 235, 0.15) !important; // Teinte bleue transparente moderne (Optionnel)
-            border: 1px solid #2563eb !important; // Contour bleu moderne pour la sélection (Optionnel)
-            position: absolute !important;
-            z-index: 50 !important;
-            pointer-events: none !important; // Évite que la box bloque les événements de souris sous-jacents
-        }
-        // --- 1. BANDEAU D'AIDE ---
-        
-
-        // --- 2. BANDEAU D'INFORMATION ---
-        .cp-app-drive-content-info-box {
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            margin: 8px 16px !important;
-            padding: 10px 14px !important;
-            border-radius: 8px !important;
-            border: 1px solid rgba(234, 179, 8, 0.3) !important;
-            background-color: rgba(234, 179, 8, 0.08) !important;
-            font-size: 13px !important;
-            color: #854d0e !important;
-
-            span[role="button"] {
-                order: 2 !important;
-                margin-left: auto !important;
-                color: #ca8a04 !important;
-                display: flex !important;
-                align-items: center !important;
-                svg { width: 14px !important; height: 14px !important; }
-            }
-        }
-
-        // --- 3. FIL D'ARIANE ---
-        .cp-app-drive-path {
-            padding: 12px 16px !important;
-            border-bottom: 1px solid #f1f5f9 !important;
-
-            .cp-app-drive-path-inner {
-                display: flex !important;
-                align-items: center !important;
-                gap: 4px !important;
-                font-size: 14px !important;
-                font-weight: 500 !important;
-                color: #0f172a !important;
-            }
-        }
-    }
-            .cp-app-drive-element-selected {
-                background: rgba(37, 99, 235, 0.15) !important;//use after cp-drive-selected-bg
-                color: @cp_drive-selected-fg;
-                &.cp-app-drive-element-active {
-                    background: rgba(37, 99, 235, 0.15) !important;
-                    color: @cryptpad_text_col !important;
-                }
-            }
-            .cp-app-drive-element-selected-tmp {
-                background: rgba(37, 99, 235, 0.15);
-                color: @cp_drive-selection-fg;
-            }
-
-    // --- 4. LA LISTE DES FICHIERS ---
-    #cp-app-drive-content-folder.cp-app-drive-content-list {
-        padding: 0 16px !important;
-
-        ul {
-            list-style: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        li.cp-app-drive-element-list, 
-        li.cp-app-drive-element-row {
-            display: flex !important;
-            align-items: center !important;
-            padding: 10px 12px !important;
-            border-bottom: 1px solid #f1f5f9 !important;
-            font-size: 13px !important;
-        }
-
-        // EN-TÊTE DE TABLEAU
-        li.cp-app-drive-element-header {
-            background-color: #fafafa !important;
-            border-bottom: 1px solid #e2e8f0 !important;
-            font-weight: 500 !important;
-            color: #64748b !important;
-
-            // 🟢 AJOUTER CE BLOC CI-DESSOUS POUR ALIGNER LES COLONNES :
-            .cp-app-drive-element-name,
-            .cp-app-drive-element-sort {
-                flex: 2 !important;
-                // Compense la présence de l'icône dans les lignes pour un alignement au pixel près
-                padding-left: 30px !important; 
-            }
-
-            .cp-app-drive-element-state {
-                width: 30px !important;
-            }
-
-            .cp-app-drive-element-type,
-            .cp-app-drive-element-atime,
-            .cp-app-drive-element-ctime,
-            .cp-app-drive-element-folders,
-            .cp-app-drive-element-files,
-            .cp-app-drive-element-filler {
-                flex: 1 !important;
-            }
-
-            .cp-app-drive-sort-clickable {
-                cursor: pointer !important;
-                &:hover { color: #0f172a !important; }
-            }
-
-            .cp-dropdown-container {
+            .cp-splitter {
                 display: none;
             }
         }
 
-        // LIGNE DE FICHIER
-        // LIGNE DE FICHIER ET DE DOSSIER (UNIFIÉE)
-        li.cp-app-drive-element {
-            display: flex !important;       // 🔴 INDISPENSABLE pour activer l'alignement en colonnes
-            align-items: center !important; // Centre verticalement les icônes et textes
-            cursor: pointer !important;
-            color: #334155 !important;
-            padding: 10px 12px !important;  // Assure la même hauteur partout
-            border-bottom: 1px solid #f1f5f9 !important;
-
-            &:hover {
-                background-color: rgba(37, 99, 235, 0.15) !important;
-            }
-
-            // Aligne le nom (dossier ou fichier) sur 2 parts (comme le header)
-            .cp-app-drive-element-name {
-                flex: 2 !important;
-                font-weight: 450 !important;
-                color: #0f172a !important;
-                white-space: nowrap !important;
-                overflow: hidden !important;
-                text-overflow: ellipsis !important;
-                display: flex !important;
-                align-items: center !important;
-            }
-
-            // Aligne la colonne d'état (propriétaire, etc.)
-            .cp-app-drive-element-state {
-                width: 30px !important;
-                display: flex !important;
-                justify-content: center !important;
-                color: #94a3b8 !important;
-                flex-shrink: 0 !important;
-                svg { width: 14px !important; height: 14px !important; }
-            }
-
-            // 🟢 UNIFICATION DES COLONNES DE DONNÉES (Fichiers ET Dossiers)
-            // Gère à la fois le type/dates des fichiers et les compteurs de dossiers (# de fichiers/# de dossiers)
-            .cp-app-drive-element-type,
-            .cp-app-drive-element-atime,
-            .cp-app-drive-element-ctime,
-            .cp-app-drive-element-folders,
-            .cp-app-drive-element-files {
-                flex: 1 !important;         // Prend 1 part, exactement comme le header
-                color: #64748b !important;
-                font-variant-numeric: tabular-nums !important;
-                white-space: nowrap !important;
-            }
-
-            // Variable d'ajustement en fin de ligne si présente
-            .cp-app-drive-element-filler {
-                flex: 1 !important;
-            }
-
-            // Style global des icônes de ligne (Dossier Lucide et fichiers)
-            svg.cp-app-drive-content-icon,
-            svg.cp-icon {
-                width: 18px !important;
-                height: 18px !important;
-                margin-right: 12px !important;
-                flex-shrink: 0 !important;
-                
-                &.lucide-file-text, &.lucide-file-code {
-                    color: #0284c7 !important; // Couleur bleutée moderne pour les fichiers
-                }
-                &.lucide-folder {
-                    color: #64748b !important; // Couleur ardoise moderne pour les dossiers (ou #2563eb si vous préférez le bleu)
-                }
-            }
-        }
-
-        // LIGNE "NOUVEAU"
-        li.cp-app-drive-new-ghost {
-            color: #2563eb !important;
-            font-weight: 500 !important;
-            border-bottom: 1px dashed #e2e8f0 !important;
-            background-color: transparent !important;
-
-            &:hover {
-                background-color: rgba(37, 99, 235, 0.04) !important;
-            }
-
-            svg {
-                width: 16px !important;
-                height: 16px !important;
-                margin-right: 12px !important;
-                color: #2563eb !important;
+        #cp-app-drive-content-container {
+            width: 100%;
+            display: flex !important;
+            flex-direction: column !important;
+            .cp-splitter {
+                display: none;
             }
         }
     }
+}
+
+#cp-app-drive-content-container {
+    width: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    .cp-splitter {
+        display: none;
+    }
+}
+
+// --- LE PANNEAU LATÉRAL ENTIER (STYLE MODERNISÉ VIA CONFIG) ---
+#cp-app-drive-tree {
+    font-size: @colortheme_app-font-size !important; // Utilisation de la taille globale
+    background-color: @cp_sidebar-left-bg !important; // Variable de fond native
+    border-right: 1px solid @cp_drive-icon-border !important; 
+    padding: 12px 0px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    width: 15% !important;
+    flex-shrink: 0 !important;
+    color: @cp_sidebar-left-fg !important; // Variable de texte native
+
+    // Suppression des puces HTML
+    ul, li {
+        list-style: none !important;
+        list-style-type: none !important;
+    }
+
+    // Masquage des sous-dossiers repliés
+    li.cp-app-drive-element-collapsed {
+        > ul {
+            display: none !important;
+        }
+        .cp-app-drive-icon-expcol svg {
+            transform: rotate(-90deg) !important;
+        }
+    }
+
+    // Nettoyage des listes natives
+    ul.cp-app-drive-tree-category,
+    div.cp-drive-tree ul.cp-app-drive-tree-docs {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    // --- EN-TÊTE DE SECTION (Ex: "Dossiers") ---
+    .cp-app-drive-tree-root > .cp-app-drive-element-row:first-child {
+        font-size: @colortheme_app-font-size !important;
+        font-weight: 400;
+        color: @cp_sidebar-left-fg;
+        &:hover { background-color: transparent !important; }
+    }
+
+    // --- STYLE DE CHAQUE LIGNE DE MENU (DOSSIERS & DOCS) ---
+    .cp-app-drive-element-row {
+        display: flex !important;
+        align-items: center !important;
+        width: 100% !important;
+        min-height: @variables_bar-height !important; // Hauteur standardisée native
+        padding: 0px 8px 0px 12px;
+        font-size: @colortheme_app-font-size !important;
+        font-weight: 500 !important;
+        color: @cp_sidebar-left-fg !important;
+        cursor: pointer !important;
+        transition: background-color 0.15s ease, color 0.15s ease !important;
+        border-left: 2px solid transparent !important;
+
+        // Chevron Développer/Réduire
+        .cp-app-drive-icon-expcol {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: @variables_icon_width !important;
+            height: @variables_icon_height !important;
+            border-radius: @variables_radius !important;
+            margin-right: @variables_icon_margin !important;
+            transition: background-color 0.1s ease !important;
+
+            &:hover {
+                background-color: @cp_drive-icon-hover !important;
+            }
+
+            svg {
+                width: 12px !important;
+                height: 12px !important;
+                color: @cp_drive-header-fg !important;
+                transition: transform 0.15s ease !important;
+                margin-right: 0rem;
+            }
+        }
+
+        // Icônes de contenu principales
+        svg.cp-app-drive-content-icon,
+        svg.cp-icon {
+            width: @variables_icon_width !important;
+            height: @variables_icon_height !important;
+            margin-right: @variables_icon_margin !important;
+            flex-shrink: 0 !important;
+            color: @cp_drive-header-fg !important; 
+
+            // Préservation de vos nuances colorées spécifiques
+            &.lucide-inbox { color: rgba(37, 99, 235, 0.8) !important; }
+            &.lucide-file-text { color: rgba(124, 58, 237, 0.8) !important; }
+            &.lucide-send { color: rgba(5, 150, 105, 0.8) !important; }
+            &.lucide-ban { color: rgba(220, 38, 38, 0.8) !important; }
+        }
+
+        // Texte de l'élément (Tronqué proprement)
+        .cp-app-drive-element {
+            flex: 1 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+
+        // ÉTAT HOVER
+        &:hover {
+            background-color: @cp_drive-icon-hover !important;
+            color: @cp_sidebar-left-fg !important;
+        }
+
+        // ÉLÉMENT ACTIF / SÉLECTIONNÉ
+        &.cp-app-drive-element-active,
+        &.cp-leftside-active {
+            background-color: fade(@cryptpad_color_brand, 15%) !important; // Calcul dynamique natif
+            color: @cp_sidebar-left-active-fg !important;
+            font-weight: 600 !important;
+            border-left: 2px solid @cryptpad_color_brand !important; // Couleur de marque native
+
+            svg.lucide {
+                color: @cryptpad_color_brand !important;
+            }
+            span.cp-app-drive-element{
+                color: @cryptpad_color_brand !important ;
+            }
+        }
+    }
+
+    // INDENTATION DYNAMIQUE DE L'ARBORESCENCE INFÉRIEURE
+    ul ul {
+        .cp-app-drive-element-row {
+            padding-left: 24px !important; 
+        }
+        ul .cp-app-drive-element-row {
+            padding-left: 36px !important;
+        }
+    }
+
+    // --- BLOC DE LIMITE DE STOCKAGE (EN BAS) ---
+    .cp-limit-container {
+        margin-top: auto !important;
+        padding: 16px 16px 4px 16px !important;
+        border-top: 1px solid @cp_drive-icon-border !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+
+        .cp-limit-usage-text {
+            font-size: 12px !important;
+            color: @cp_drive-header-fg !important;
+            b {
+                color: @cp_sidebar-left-fg !important;
+                font-weight: 600 !important;
+            }
+        }
+
+        .cp-limit-bar {
+            display: block !important;
+            width: 100% !important;
+            height: 6px !important;
+            background-color: @cp_drive-icon-border !important;
+            border-radius: 9999px !important;
+            overflow: hidden !important;
+
+            .cp-limit-usage.cp-limit-usage-normal {
+                display: block;
+                height: 100% !important;
+                background-color: @cryptpad_color_brand !important;
+                border-radius: 9999px !important;
+                transition: width 0.3s ease !important;
+            }
+        }
+
+        .cp-limit-buttons .cp-limit-upgrade.btn-primary {
+            display: block !important;
+            width: 100% !important;
+            text-align: center !important;
+            background-color: @cp_sidebar-left-bg !important;
+            border: 1px solid @cp_drive-icon-border !important;
+            color: @cp_sidebar-left-fg !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            padding: 6px 12px !important;
+            border-radius: @variables_radius !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+
+            &:hover {
+                background-color: @cp_drive-icon-hover !important;
+                color: @cp_sidebar-left-active-fg !important;
+            }
+        }
+    }
+}
+    .lucide-ellipsis-vertical {
+    display: none;
+}
+
+// --- 1. BANDEAU D'AIDE BANALISÉ ---
+.cp-help-container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 14px !important;
+    border: 1px solid @cp_drive-icon-border !important; 
+    background-color: @cp_drive-icon-hover !important; // Réutilisation du fond neutre transparent
+    width: 100%;
+    
+    .cp-help-text p {
+        margin: 0 !important;
+        font-size: 13px !important;
+        color: @cp_drive-header-fg !important;
+
+        a {
+            color: @cryptpad_color_brand !important; // Couleur de marque dynamique
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            &:hover { text-decoration: underline !important; }
+        }
+    }
+
+    .cp-help-close {
+        background: transparent !important;
+        border: none !important;
+        color: @cp_drive-header-fg !important;
+        cursor: pointer !important;
+        padding: 4px !important;
+        border-radius: @variables_radius !important;
+        display: flex !important;
+        align-items: center !important;
+
+        &:hover {
+            background-color: @cp_drive-icon-border !important;
+            color: @cp_sidebar-left-fg !important;
+        }
+        svg { 
+            width: 14px !important; 
+            height: 14px !important; 
+        }
+    }
+}
+
+// --- CONTENEUR DE DRIVE PRINCIPAL ---
+#cp-app-drive-content {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+    background-color: @cp_sidebar-right-bg !important; // Variable de fond de liste native
+    color: @cp_sidebar-right-fg !important;            // Variable de texte de liste native
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    position: relative !important; 
+    overflow-y: auto !important;   
+    box-sizing: border-box !important;
+    height: 100%;
+
+    &:focus {
+        outline: none !important;
+    }
+
+    // LA ZONE DE SÉLECTION AU CLIC-GLISSER
+    .cp-app-drive-content-select-box {
+        display: none; 
+        background-color: fade(@cryptpad_color_brand, 15%) !important; // Calcul transparent de la couleur de marque
+        border: 1px solid @cryptpad_color_brand !important; 
+        position: absolute !important;
+        z-index: 50 !important;
+        pointer-events: none !important; 
+    }
+
+    // --- 2. BANDEAU D'INFORMATION (ALERTE DYNAMIQUE) ---
+    .cp-app-drive-content-info-box {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        margin: 8px 16px !important;
+        padding: 10px 14px !important;
+        border-radius: @variables_radius_M !important;
+        border: 1px solid @cp_alerts-warning-text !important; // Utilisation de la couleur native warning
+        background-color: @cp_alerts-warning-bg !important;
+        font-size: 13px !important;
+        color: @cp_alerts-warning-text !important; 
+
+        span[role="button"] {
+            order: 2 !important;
+            margin-left: auto !important;
+            color: @cp_alerts-warning-text !important;
+            display: flex !important;
+            align-items: center !important;
+            svg { width: 14px !important; height: 14px !important; }
+        }
+    }
+
+    // --- 3. FIL D'ARIANE ---
+    .cp-app-drive-path {
+        padding: 12px 16px !important;
+        border-bottom: 1px solid @cp_drive-icon-border !important;
+
+        .cp-app-drive-path-inner {
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            font-size: @colortheme_app-font-size !important;
+            font-weight: 500 !important;
+            color: @cp_sidebar-right-fg !important;
+        }
+    }
+}
+
+// SÉLECTION DES ÉLÉMENTS DE LA LISTE
+.cp-app-drive-element-selected {
+    background: fade(@cryptpad_color_brand, 15%) !important; 
+    color: @cp_drive-selected-fg !important;
+    &.cp-app-drive-element-active {
+        background: fade(@cryptpad_color_brand, 15%) !important;
+        color: @cryptpad_text_col !important;
+    }
+}
+.cp-app-drive-element-selected-tmp {
+    background: fade(@cryptpad_color_brand, 15%) !important;
+    color: @cp_drive-selection-fg !important;
+}
+
+// --- 4. LA LISTE DES FICHIERS ---
+#cp-app-drive-content-folder.cp-app-drive-content-list {
+    padding: 0 16px !important;
+
+    ul {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    li.cp-app-drive-element-list, 
+    li.cp-app-drive-element-row {
+        display: flex !important;
+        align-items: center !important;
+        padding: 10px 12px !important;
+        border-bottom: 1px solid @cp_drive-icon-border !important;
+        font-size: 13px !important;
+    }
+
+    // EN-TÊTE DE TABLEAU
+    li.cp-app-drive-element-header {
+        background-color: @cryptpad_color_grey_50 !important; // Fond d'en-tête natif de config
+        border-bottom: 1px solid @cp_drive-icon-border !important;
+        font-weight: 500 !important;
+        color: @cp_drive-header-fg !important;
+
+        .cp-app-drive-element-name,
+        .cp-app-drive-element-sort {
+            flex: 2 !important;
+            padding-left: 30px !important; 
+        }
+
+        .cp-app-drive-element-state {
+            width: 30px !important;
+        }
+
+        .cp-app-drive-element-type,
+        .cp-app-drive-element-atime,
+        .cp-app-drive-element-ctime,
+        .cp-app-drive-element-folders,
+        .cp-app-drive-element-files,
+        .cp-app-drive-element-filler {
+            flex: 1 !important;
+        }
+
+        .cp-app-drive-sort-clickable {
+            cursor: pointer !important;
+            &:hover { color: @cp_sidebar-right-fg !important; }
+        }
+
+        .cp-dropdown-container {
+            display: none;
+        }
+    }
+
+    // LIGNE DE FICHIER ET DE DOSSIER UNIFIÉE
+    li.cp-app-drive-element {
+        display: flex !important;       
+        align-items: center !important; 
+        cursor: pointer !important;
+        color: @cp_sidebar-right-fg !important;
+        padding: 10px 12px !important;  
+        border-bottom: 1px solid @cp_drive-icon-border !important;
+
+        &:hover {
+            background-color: fade(@cryptpad_color_brand, 15%) !important;
+        }
+
+        .cp-app-drive-element-name {
+            flex: 2 !important;
+            font-weight: 450 !important;
+            color: @cp_sidebar-right-fg !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        .cp-app-drive-element-state {
+            width: 30px !important;
+            display: flex !important;
+            justify-content: center !important;
+            color: @cp_drive-header-fg !important;
+            flex-shrink: 0 !important;
+            svg { width: 14px !important; height: 14px !important; }
+        }
+
+        .cp-app-drive-element-type,
+        .cp-app-drive-element-atime,
+        .cp-app-drive-element-ctime,
+        .cp-app-drive-element-folders,
+        .cp-app-drive-element-files {
+            flex: 1 !important;         
+            color: @cp_drive-header-fg !important;
+            font-variant-numeric: tabular-nums !important;
+            white-space: nowrap !important;
+        }
+
+        .cp-app-drive-element-filler {
+            flex: 1 !important;
+        }
+
+        svg.cp-app-drive-content-icon,
+        svg.cp-icon {
+            width: 18px !important;
+            height: 18px !important;
+            margin-right: 12px !important;
+            flex-shrink: 0 !important;
+            
+            &.lucide-file-text, &.lucide-file-code {
+                color: @cryptpad_color_brand !important; // Variable dédiée aux types fichiers
+            }
+            &.lucide-folder {
+                color: @cryptpad_color_grey_700 !important; // Variable dédiée aux types dossiers
+            }
+        }
+    }
+
+    // LIGNE "NOUVEAU" (FANTÔME)
+    li.cp-app-drive-new-ghost {
+        color: @cryptpad_color_brand !important;
+        font-weight: 500 !important;
+        border-bottom: 1px dashed @cp_drive-icon-border !important;
+        background-color: transparent !important;
+
+        &:hover {
+            background-color: fade(@cryptpad_color_brand, 4%) !important;
+        }
+
+        svg {
+            width: 16px !important;
+            height: 16px !important;
+            margin-right: 12px !important;
+            color: @cryptpad_color_brand !important;
+        }
+    }
+}
+
 }
