@@ -70,6 +70,18 @@ display: flex !important;
         justify-content: space-between !important; // Repousse la jauge de stockage en bas
         width: 16.666% !important;
         flex-shrink: 0 !important;
+        // 1. Suppression globale et absolue des puces HTML (ronds, carrés)
+        ul, li {
+            list-style: none !important;
+            list-style-type: none !important;
+        }
+
+        // 2. Gestion du masquage des sous-dossiers repliés
+        li.cp-app-drive-element-collapsed {
+            > ul {
+                display: none !important;
+            }
+        }
 
         // Conteneur des catégories de navigation
         .cp-app-drive-tree-categories-container {
