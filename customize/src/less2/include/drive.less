@@ -41,12 +41,23 @@ display: flex !important;
             }
 
             #cp-app-drive-content-container {
+                width: 100%;
+                display: flex !important;
+                flex-direction: column !important;
                 .cp-splitter {
                     display: none;
                 }
             }
         }
     }
+    #cp-app-drive-content-container {
+                width: 100%;
+                display: flex !important;
+                flex-direction: column !important;
+                .cp-splitter {
+                    display: none;
+                }
+            }
 
     // --- LE PANNEAU LATÉRAL ENTIER ---
     #cp-app-drive-tree {
@@ -201,27 +212,16 @@ display: flex !important;
 
 
 
-
-
-//       DRIVE CONTEIANTER
-    #cp-app-drive-content-container {
-        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
-        background-color: #ffffff !important;
-        color: #0f172a !important;
-        display: flex !important;
-        flex-direction: column !important;
-        width: 83.333% !important;
-
-        // --- 1. BANDEAU D'AIDE ---
-        .cp-help-container {
+    .cp-help-container {
             display: flex !important;
             align-items: center !important;
             justify-content: space-between !important;
-            margin: 12px 16px 4px 16px !important;
+          
             padding: 10px 14px !important;
-            border-radius: 8px !important;
+            
             border: 1px solid #e2e8f0 !important;
             background-color: #f8fafc !important;
+            width: 100%;
             
             .cp-help-text p {
                 margin: 0 !important;
@@ -253,6 +253,35 @@ display: flex !important;
                 svg { width: 14px !important; height: 14px !important; }
             }
         }
+
+//       DRIVE CONTEIANTER
+    #cp-app-drive-content {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        position: relative !important; // INDISPENSABLE pour positionner la boîte de sélection (top/left)
+        overflow-y: auto !important;   // Permet le défilement et la capture du drag de sélection
+        box-sizing: border-box !important;
+        height: 100%;
+
+        &:focus {
+            outline: none !important;
+        }
+
+        // LA ZONE DE SÉLECTION AU CLIC-GLISSER (CORRIGÉE)
+        .cp-app-drive-content-select-box {
+            display: none; // Laissé sans !important car le JS bascule entre 'none' et 'block'
+            background-color: rgba(37, 99, 235, 0.15) !important; // Teinte bleue transparente moderne (Optionnel)
+            border: 1px solid #2563eb !important; // Contour bleu moderne pour la sélection (Optionnel)
+            position: absolute !important;
+            z-index: 50 !important;
+            pointer-events: none !important; // Évite que la box bloque les événements de souris sous-jacents
+        }
+        // --- 1. BANDEAU D'AIDE ---
+        
 
         // --- 2. BANDEAU D'INFORMATION ---
         .cp-app-drive-content-info-box {
@@ -292,6 +321,18 @@ display: flex !important;
             }
         }
     }
+            .cp-app-drive-element-selected {
+                background: rgba(37, 99, 235, 0.15) !important;//use after cp-drive-selected-bg
+                color: @cp_drive-selected-fg;
+                &.cp-app-drive-element-active {
+                    background: rgba(37, 99, 235, 0.15) !important;
+                    color: @cryptpad_text_col !important;
+                }
+            }
+            .cp-app-drive-element-selected-tmp {
+                background: rgba(37, 99, 235, 0.15);
+                color: @cp_drive-selection-fg;
+            }
 
     // --- 4. LA LISTE DES FICHIERS ---
     #cp-app-drive-content-folder.cp-app-drive-content-list {
@@ -351,14 +392,20 @@ display: flex !important;
         }
 
         // LIGNE DE FICHIER
+        // LIGNE DE FICHIER ET DE DOSSIER (UNIFIÉE)
         li.cp-app-drive-element {
+            display: flex !important;       // 🔴 INDISPENSABLE pour activer l'alignement en colonnes
+            align-items: center !important; // Centre verticalement les icônes et textes
             cursor: pointer !important;
             color: #334155 !important;
+            padding: 10px 12px !important;  // Assure la même hauteur partout
+            border-bottom: 1px solid #f1f5f9 !important;
 
             &:hover {
-                background-color: #f8fafc !important;
+                background-color: rgba(37, 99, 235, 0.15) !important;
             }
 
+            // Aligne le nom (dossier ou fichier) sur 2 parts (comme le header)
             .cp-app-drive-element-name {
                 flex: 2 !important;
                 font-weight: 450 !important;
@@ -366,32 +413,51 @@ display: flex !important;
                 white-space: nowrap !important;
                 overflow: hidden !important;
                 text-overflow: ellipsis !important;
+                display: flex !important;
+                align-items: center !important;
             }
 
+            // Aligne la colonne d'état (propriétaire, etc.)
             .cp-app-drive-element-state {
                 width: 30px !important;
                 display: flex !important;
                 justify-content: center !important;
                 color: #94a3b8 !important;
+                flex-shrink: 0 !important;
                 svg { width: 14px !important; height: 14px !important; }
             }
 
+            // 🟢 UNIFICATION DES COLONNES DE DONNÉES (Fichiers ET Dossiers)
+            // Gère à la fois le type/dates des fichiers et les compteurs de dossiers (# de fichiers/# de dossiers)
             .cp-app-drive-element-type,
             .cp-app-drive-element-atime,
-            .cp-app-drive-element-ctime {
-                flex: 1 !important;
+            .cp-app-drive-element-ctime,
+            .cp-app-drive-element-folders,
+            .cp-app-drive-element-files {
+                flex: 1 !important;         // Prend 1 part, exactement comme le header
                 color: #64748b !important;
                 font-variant-numeric: tabular-nums !important;
+                white-space: nowrap !important;
             }
 
+            // Variable d'ajustement en fin de ligne si présente
+            .cp-app-drive-element-filler {
+                flex: 1 !important;
+            }
+
+            // Style global des icônes de ligne (Dossier Lucide et fichiers)
+            svg.cp-app-drive-content-icon,
             svg.cp-icon {
                 width: 18px !important;
                 height: 18px !important;
                 margin-right: 12px !important;
                 flex-shrink: 0 !important;
                 
-                &.lucide-file-text {
-                    color: #0284c7 !important;
+                &.lucide-file-text, &.lucide-file-code {
+                    color: #0284c7 !important; // Couleur bleutée moderne pour les fichiers
+                }
+                &.lucide-folder {
+                    color: #64748b !important; // Couleur ardoise moderne pour les dossiers (ou #2563eb si vous préférez le bleu)
                 }
             }
         }
