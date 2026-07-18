@@ -69,7 +69,7 @@ display: flex !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: space-between !important;
-        width: 16.666% !important;
+        width: 15% !important;
         flex-shrink: 0 !important;
 
         // Suppression globale et absolue des puces HTML (ronds, carrés)
@@ -104,7 +104,7 @@ display: flex !important;
         .cp-app-drive-tree-root > .cp-app-drive-element-row:first-child {
             font-size: 14px !important;
             font-weight: 400;
-            color: #0f172a !important;
+            color: #0f172a;
             &:hover { background-color: transparent !important; }
         }
 
@@ -113,11 +113,11 @@ display: flex !important;
             display: flex !important;
             align-items: center !important;
             width: 100% !important;
-            min-height: 36px !important; // Équivalent de la densité fine du modèle
-            padding: 4px 8px 4px 12px !important; // padding-right ajusté pour les icônes de fin
+            min-height: 28px !important; // Équivalent de la densité fine du modèle
+            padding: 0px 8px 0px 12px; // padding-right ajusté pour les icônes de fin
             font-size: 14px !important;
             font-weight: 500 !important;
-            color: #0f172a !important; // text-foreground
+            color: #0f172a; // text-foreground
             cursor: pointer !important;
             transition: background-color 0.15s ease, color 0.15s ease !important;
             border-left: 2px solid transparent !important; // border-s-2 border-transparent par défaut
@@ -180,8 +180,8 @@ display: flex !important;
             &.cp-app-drive-element-active,
             &.cp-leftside-active {
                 font-family: 'Inter', system-ui, -apple-system, sans-serif !important;//TODO
-                background-color: #f1f5f9 !important; // bg-accent
-                color: #0f172a !important; // text-accent-foreground
+                background-color: #dbeafe !important; // bg-accent
+                color: #1e40af !important; // text-accent-foreground
                 font-weight: 600 !important; // font-semibold
                 border-left: 2px solid #2563eb !important; // border-primary (Bleu)
 
@@ -259,7 +259,9 @@ display: flex !important;
         }
     }
 
-
+    .lucide-ellipsis-vertical{
+        display: none;
+    }
 
     .cp-help-container {
             display: flex !important;
