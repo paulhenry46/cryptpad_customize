@@ -384,152 +384,222 @@ height: 100vh !important;
     color: @cp_drive-selection-fg !important;
 }
 
+// Variables existantes (et supposées pour la cohérence)
+@drive_icon-margin: 12px; // Légèrement augmenté pour donner de l'air
+
+
 div.cp-app-drive-content-grid {
-            padding: 1em;
-            ul {
-                margin: -(@drive_icon-margin);
-            }
-            .drive_fileIcon;
-            li {
-                border-radius: @variables_radius;
-                &.cp-app-drive-element {
-                    position: relative;
-                }
-                &.cp-app-drive-element-separator {
-                    display: block;
-                    height: auto;
-                    width: auto;
-                    border: none !important;
-                }
-                input {
-                    width: 100%;
-                    margin: 0;
-                    padding: 0;
-                    border-radius: 0;
-                    border: 1px solid transparent;
-                    font-size: 14px;
-                    height: auto;
-                }
-                .cp-app-drive-element-state, .cp-app-drive-element-menu {
-                    position: absolute;
-                    top: 3px;
-                    display: flex;
-                    flex-direction: column;
-                    svg {
-                        margin: 0;
-                        font-size: 16px;
-                    }
-                }
-                .cp-app-drive-element-name-text {
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                }
+    padding: 1.5em;
+    //background-color: #fafafa; // Fond de conteneur plus doux
+    flex-grow: 1 !important; // Il prendra tout l'espace disponible restant
+    overflow-y: auto !important;
 
-                .cp-app-drive-element-state {
-                    left: 3px;
-                }
-                .cp-app-drive-element-menu {
-                    right: 3px;
-                }
-                .cp-app-drive-element-thumbnail {
-                    max-width: 100px;
-                    max-height: 100px;
-                    background: @cp_drive-thumb-bg;
-                    & ~ svg {
-                        display: none;
-                        font-size: 17px;
-                        position: absolute;
-                        top: 3px;
-                        left: 3px;
-                        margin: 0;
-                    }
-                }
-            }
-            .cp-app-drive-new-ghost {
-                flex-flow: column;
-                svg {
-                    font-size: 90px;
-                    margin: 0;
-                }
-            }
-            .cp-app-drive-element-list {
-                display: none;
-            }
-        }
+    ul {
+        margin: 0;
+        padding: 0;
+        display: grid;
+        // Création d'une grille fluide et responsive automatique
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 16px;
+    }
 
-@drive_icon-margin: 10px;
-    .drive_fileIcon {
-        li {
+    // Masquer les éléments purement textuels de la vue "Liste" qui polluent la grille
+    .cp-app-drive-element-list,
+    .cp-app-drive-element-type,
+    .cp-app-drive-element-atime,
+    .cp-app-drive-element-ctime {
+        display: none !important;
+    }
+
+    // Gérer l'en-tête qui contient le bouton de tri
+    li.cp-app-drive-element-header {
+        display: block;
+        grid-column: 1 / -1; // Prend toute la largeur de la grille
+        height: auto;
+        width: auto;
+        border: none !important;
+        padding: 0 0 8px 0;
+        text-align: left;
+        
+        // On affiche uniquement le conteneur de tri s'il est présent
+        .cp-app-drive-element-sort {
             display: inline-block;
-            margin: @drive_icon-margin;
-            width: 140px;
-            height: 140px;
-            text-align: center;
-            vertical-align: top;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            border: 1px solid transparent;
-            svg.cp-app-drive-element-icon {
-                min-width: 1.25em;
-                min-height: 1.25em;
-                font-size: 1em;
-                margin-right: 0.2rem;
-            }
-            &:not(.cp-app-drive-element-selected):not(.cp-app-drive-element-selected-tmp) {
-                border: 1px solid @cp_drive-icon-border;
-            }
-            .cp-app-drive-element-name {
-                width: 100%;
-                height: 24px;
-                margin: 0;
-                display: inline-flex;
+            button {
+                display: flex;
                 align-items: center;
-                justify-content: center;
-                font-size: 14px;
-                //align-items: center;
-                //justify-content: center;
-                overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                word-wrap: break-word;
-            }
-            .cp-app-drive-element-truncated {
-                display: block;
-                position: absolute;
-                bottom: 0px;
-                left: 0; right: 0;
-                text-align: center;
-            }
-            img.cp-app-drive-content-icon {
-                height: 48px;
-                max-height: none;
-                max-width: none;
-                margin: 8px 0;
-            }
-            svg {
-                margin: 18px 0;
-                text-align: center;
-                &.listonly {
-                    display: none;
+                gap: 6px;
+                background: #fff;
+                border: 1px solid @cp_drive-icon-border;
+                padding: 6px 12px;
+                border-radius: 20px; // Bouton pilule style Google
+                font-size: 13px;
+                cursor: pointer;
+                transition: background 0.2s;
+                
+                &:hover {
+                    background: #f1f3f4;
                 }
-            }
-            svg {
-                font-size: 55px; //temporary XXX
-            }
-
-            &.cp-app-hidden {
-                display: none !important;
-            }
-            &.cp-app-disabled {
-                cursor: not-allowed !important;
-                svg { cursor: not-allowed !important; }
-                opacity: 0.5;
+                svg {
+                    font-size: 16px !important;
+                    margin: 0 !important;
+                }
             }
         }
     }
+    li.cp-app-drive-element-separator {
+        grid-column-start: 1;
+        grid-column-end: -1;// Force l'élément à occuper toutes les colonnes de la grille
+        display: block !important;
+        padding: 0px 0 8px 0 !important; // Ajustez l'espacement autour de votre titre
+        font-weight: 600;
+        color: @cp_sidebar-left-fg;           // Couleur grise style Google Drive
+        font-size: 14px;
+        
+        // On annule les styles globaux potentiels
+        //background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        height: auto !important;
+        width: 100% !important;
+    }
+
+    li:not(.cp-app-drive-element-separator) {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        //background: @cp_drive-icon-hover;
+        border-radius: @variables_radius;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        border: 1px solid @cp_drive-icon-border;
+        padding: 16px !important;
+        margin: 0 !important; // Géré par le gap de la grille maintenant
+        width: auto !important;
+        height: 150px !important;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        box-sizing: border-box;
+
+        
+
+        // États de survol et sélection (Style Google Drive)
+        &:hover:not(.cp-app-disabled):not(.cp-app-drive-element-header) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: darken(@cp_drive-icon-border, 15%) !important;
+            background: @cp_drive-icon-hover;
+        }
+
+        &.cp-app-drive-element-selected,
+        &.cp-app-drive-element-selected-tmp {
+            background: fade(@cryptpad_color_brand, 15%) !important; // Bleu doux de sélection TODO
+            border-color: @cryptpad_color_brand !important;
+            
+        }
+
+        // Ajustement des icônes de fichiers/dossiers principaux
+        svg.cp-app-drive-content-icon,
+        svg.cp-icon {
+            font-size: 44px !important; // Taille moderne et équilibrée
+            margin: auto 0 !important;
+            color: @cp_sidebar-right-fg; // Couleur neutre moderne style Google
+            
+            // Variantes de couleurs selon le type (si tes classes cp-icon-color-X appliquent de la couleur)
+            //&.cp-icon-color-file { color: #1a73e8; }
+            //&.cp-icon-color-whiteboard { color: #ea4335; }
+            //&.cp-icon-color-code { color: #f9ab00; }
+        }
+
+        // Zone de texte (Nom de l'élément)
+        .cp-app-drive-element-name {
+            width: 100%;
+            height: 32px;
+            margin: 8px 0 0 0 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 500;
+            color: @cp_sidebar-right-fg;
+            
+            .cp-app-drive-element-name-text {
+                max-width: 100%;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+
+        // Badges d'états (ex: Propriétaire, Partagé...) placés en haut à gauche
+        .cp-app-drive-element-state {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            display: flex;
+            
+            svg {
+                font-size: 14px !important;
+                margin: 0 !important;
+                color: @cp_sidebar-right-fg;
+                background: rgba(0,0,0,0.04);
+                padding: 4px;
+                border-radius: 50%;
+                width: 30px !important;
+                height: 30px !important;
+            }
+        }
+
+        // Menu d'action (haut droit)
+        .cp-app-drive-element-menu {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            
+            svg {
+                font-size: 14px !important;
+                margin: 0 !important;
+                color: #5f6368;
+            }
+        }
+        
+        // Désactivé / Masqué
+        &.cp-app-hidden {
+            display: none !important;
+        }
+        &.cp-app-disabled {
+            cursor: not-allowed !important;
+            opacity: 0.4;
+        }
+    }
+
+    // Style de la carte "Nouveau" (Ghost card)
+    .cp-app-drive-new-ghost {
+        border: 2px dashed @cp_drive-icon-border !important;
+        background: transparent;
+        box-shadow: none;
+        cursor: pointer;
+        justify-content: center !important;
+
+        svg {
+            font-size: 28px !important; // Réduction drastique du 90px original
+            color: #5f6368;
+            margin: 0 0 8px 0 !important;
+            background: #f1f3f4;
+            padding: 12px;
+            border-radius: 50%;
+        }
+        
+        .cp-app-drive-element-name {
+            color: #5f6368;
+            font-weight: 600;
+        }
+
+        &:hover {
+            background: rgba(0, 0, 0, 0.02) !important;
+            border-color: darken(@cp_drive-icon-border, 20%) !important;
+        }
+    }
+}
 
 // --- 4. LA LISTE DES FICHIERS ---
 #cp-app-drive-content-folder.cp-app-drive-content-list {
