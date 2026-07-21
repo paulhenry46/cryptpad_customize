@@ -405,6 +405,12 @@ div.cp-app-drive-content-grid {
         gap: 16px;
     }
 
+    &:has(.cp-app-drive-element-thumbnail) {
+             svg {
+                display: none !important;
+            }
+        }
+
     // Masquer les éléments purement textuels de la vue "Liste" qui polluent la grille
     .cp-app-drive-element-list,
     .cp-app-drive-element-type,
@@ -506,10 +512,6 @@ div.cp-app-drive-content-grid {
             margin: auto 0 !important;
             color: @cp_sidebar-right-fg; // Couleur neutre moderne style Google
             
-            // Variantes de couleurs selon le type (si tes classes cp-icon-color-X appliquent de la couleur)
-            //&.cp-icon-color-file { color: #1a73e8; }
-            //&.cp-icon-color-whiteboard { color: #ea4335; }
-            //&.cp-icon-color-code { color: #f9ab00; }
         }
 
         // Zone de texte (Nom de l'élément)
