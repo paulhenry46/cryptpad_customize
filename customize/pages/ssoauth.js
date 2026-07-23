@@ -111,9 +111,21 @@ define([
         };
 
         return frame([
+          //BEGIN AURION EDITS
             h('div.row', [
                 h('div.hidden.col-md-3'),
-                h('div#userForm.form-group.col-md-6.cp-ssoauth-pw', [
+                
+                // --- ÉCRAN DE CHARGEMENT ---
+                h('div#loaderForm.col-md-6.cp-ssoauth-loader', [
+                    h('div.spinner'),
+                    h('p.loading-text', 'Connexion automatique en cours, veuillez patienter...'),
+                    h('div.progress-bar-container', [
+                        h('div.progress-bar-fill')
+                    ])
+                ]),
+
+                // --- END AURION EDITS ---
+                h('div#userForm.form-group.col-md-6.cp-ssoauth-pw', { style: 'display: none !important;' }, [
                     h('p.cp-isregister.cp-login-instance', Msg.ssoauth_form_hint_register),
                     h('p.cp-islogin.cp-login-instance', Msg.ssoauth_form_hint_login),
                     h('input.form-control#password', {
