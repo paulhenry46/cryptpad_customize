@@ -1,0 +1,97 @@
+/*
+ * SPDX-FileCopyrightText: 2023 XWiki CryptPad Team <contact@cryptpad.org> and contributors
+ *
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+@import (reference) "./colortheme-all.less";
+@import (reference) "./variables.less";
+
+.contextmenu_main() {
+    --LessLoader_require: LessLoader_currentFile();
+};
+& {
+    .cp-contextmenu {
+        display: none;
+        position: absolute !important;
+        z-index: 50000;
+        & > ul {
+            border: 1px solid @cp_context-border;
+            background-color: @cp_context-bg;
+            border-radius: @variables_radius;
+            .dropdown-divider {
+                border-top: 1px solid @cp_context-border;
+            }
+        }
+        .dropdown-menu {
+            padding: 6px 0px;
+        }
+        .dropdown-item {
+            display: inline-flex;
+            align-items: center;
+        }
+        li {
+            padding: 0;
+            font-size: 14px;
+            a.cp-app-drive-context-openincode,
+            a.cp-app-drive-context-openinsheet,
+            a.cp-app-drive-context-openindoc,
+            a.cp-app-drive-context-openinpresentation {
+                & > svg.lucide {
+                    margin: 0 0.25rem;
+                    vector-effect: non-scaling-stroke;
+                    stroke-width: 1.7;
+                }
+            }
+            &.dropdown-submenu {
+                position: relative;
+                &> a {
+                    cursor: default;
+                    // reset bootstrap active style
+                    &:active {
+                        background: inherit;
+                        color: inherit;
+                    }
+                }
+                span svg {
+                    margin-right: 0;
+                    margin-left: 1rem;
+                }
+                .dropdown-menu {
+                    top: -0.7rem;
+                    left: 100%;
+                    background-color: @cp_context-bg;
+                    border-radius: @variables_radius;
+                    border: 1px solid @cp_context-border;
+                }
+            }
+            a {
+                cursor: pointer;
+                color: @cp_context-fg;
+                padding-left: 10px;
+                &:hover {
+                    background-color: @cp_context-bg-hover;
+                    color: @cp_context-fg;
+                }
+                &:active {
+                    background-color: @cp_context-bg-active;
+                    color: @cp_context-fg;
+                }
+                &.cp-app-disabled {
+                    cursor: not-allowed !important;
+                    opacity: 0.5;
+                }
+            }
+        }
+        li.dropdown-submenu > ul.dropdown-menu li > a.dropdown-item > svg.lucide {
+            vector-effect: non-scaling-stroke;
+            stroke-width: 1.7;
+        }
+        .cp-app-drive-context-noAction {
+            font-style: italic;
+            color: @cp_context-disabled;
+            cursor: default;
+            display: none;
+        }
+    }
+}
